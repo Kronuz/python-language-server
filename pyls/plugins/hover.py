@@ -17,4 +17,7 @@ def pyls_hover(document, position):
         # :(
         return {'contents': ''}
 
-    return {'contents': _utils.format_docstring(definitions[0].docstring()) or ""}
+    contents = definitions[0].docstring().split('\n\n') or ""
+    contents[0] = {'value': contents[0], 'language': 'python'}
+    contents = contents[:1] + list(map(_utils.format_docstring, contents[1:]))
+    return {'contents': contents}
